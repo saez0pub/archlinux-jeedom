@@ -1,13 +1,9 @@
 post_install() {
-  bdd_password=$(cat /dev/urandom | tr -cd 'a-f0-9' | head -c 15)
-  echo "DROP USER 'jeedom'@'localhost'" > ${pkgdir}/srv/jeedom/var/mysql_install.sql
-  echo "CREATE USER 'jeedom'@'localhost' IDENTIFIED BY '${bdd_password}';" >> ${pkgdir}/srv/jeedom/var/mysql_install.sql
-  echo "DROP DATABASE IF EXISTS jeedom;" >> ${pkgdir}/srv/jeedom/var/mysql_install.sql
-  echo "CREATE DATABASE jeedom;" >> ${pkgdir}/srv/jeedom/var/mysql_install.sql
-  echo "GRANT ALL PRIVILEGES ON jeedom.* TO 'jeedom'@'localhost';" >> ${pkgdir}/srv/jeedom/var/mysql_install.sql
-
+  #Nothing
 }
 pre_upgrade() {
+  #Nothing
 }
 post_upgrade() {
+  #Nothing
 }

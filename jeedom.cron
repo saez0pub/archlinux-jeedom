@@ -1,0 +1,1 @@
+* * * * * http /usr/bin/php /var/http/jeedom/core/php/jeeCron.php > /dev/null

@@ -1,23 +1,23 @@
 # Maintainer: saez0pub saez_pub hotmail com
 
-pkgname=z-way
-pkgver=1.7.2
+pkgname=jeedom
+pkgver=1.94.0
 pkgrel=1
-pkgdesc="Z-Way communication stack"
+pkgdesc="Jeedom Home automation"
 arch=('armv6h')
-url="http://razberry.z-wave.me"
-license=('http://razberry.z-wave.me/docs/ZWAYEULA.pdf')
+url="https://jeedom.fr"
+license=('GPL')
 depends=('ffmpeg' 'php-ssh' 'ntp' 'unzip' 'mariadb' 'mariadb-clients'
-         'libmariadbclient' 'nodejs' 'php' 'php-fpm' 'usb_modeswitch' 'python-pyserial'))
-install=${pkgname}.install
-source=("http://razberry.z-wave.me/z-way-server/z-way-server-RaspberryPiXTools-v1.7.2.tgz"
-        "http://razberry.z-wave.me/webif_raspberry.tar.gz" "z-way-server.service" "z-way-server.logrotate")
+         'libmariadbclient' 'nodejs' 'php' 'php-fpm' 'usb_modeswitch' 'python-pyserial')
+#install=${pkgname}.install
+source=("https://market.jeedom.fr/jeedom/stable/jeedom.zip" 
+        'jeedom.cron')
 
-md5sums=('SKIP')
+md5sums=('SKIP'
+         '2c44e18a6281eef773e61a75ef4aadb4')
 
 
 package() {
-  mkdir -p ${pkgdir}/srv/www/
-  mkdir -p ${pkgdir}/srv/jeedom/var/
-  unzip ${pkgdir}/jeedom.zip -d ${pkgdir}/srv/www/jeedom
+  mkdir -p ${pkgdir}/srv/http/
+  unzip jeedom.zip -d ${pkgdir}/srv/http/jeedom
 }

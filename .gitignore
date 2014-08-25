@@ -2,3 +2,4 @@ pkg/*
 src/*
 jeedom.zip
 *.swp
+jeedom-*-armv6h.pkg.tar.xz
