@@ -1,5 +1,5 @@
 post_install() {
-  #Nothing
+ echo "To make a initial installation, run /srv/http/jeedom/install/jeedom.postinstall.sh"
 }
 pre_upgrade() {
   #Nothing
