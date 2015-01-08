@@ -10,7 +10,7 @@ Usage: `basename $0` [WEBSERVER]
 where WEBSERVER is "$nginxString" or "$apacheString".
 Default is "$nginxString".
 
-Retrieves the dependencies for jeedom and installs it.
+Retrieves the dependencies for Jeedom and installs it.
 Official website:
 > https://jeedom.fr/index-en.php
 
@@ -146,7 +146,7 @@ fi
 
 echo
 echo "********************************************************"
-echo "*                 Copying jeedom files                 *"
+echo "*                 Copying Jeedom files                 *"
 echo "********************************************************"
 echo
 
@@ -158,7 +158,7 @@ echoEval "wget -O jeedom.zip https://market.jeedom.fr/jeedom/stable/jeedom.zip"
 if [  $? -ne 0 ] ; then
     echoEval "wget -O jeedom.zip https://market.jeedom.fr/jeedom/stable/jeedom.zip"
     if [  $? -ne 0 ] ; then
-        error "Impossible de télécharger le fichier"
+        error "failed to download file."
     fi
 fi
 
@@ -200,8 +200,7 @@ if [ ${nodeJS} -ne 0 ] ; then
         fi
         echoEval "sudo rm -rf node-v0.10.21-cubie.tar.xz"
     fi
-fi
-if [ $( cat /etc/os-release | grep raspbian | wc -l) -gt 0 ] ; then
+elif [ $( cat /etc/os-release | grep raspbian | wc -l) -gt 0 ] ; then
     echo
     echo "********************************************************"
     echo "*        Installing nodeJS manualy for Raspberry       *"
