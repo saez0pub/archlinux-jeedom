@@ -1,3 +1,7 @@
+#!/bin/bash
+
+## Adapted from https://github.com/saez0pub/archlinux-jeedom.
+
 nginxString="nginx"
 apacheString="apache"
 
