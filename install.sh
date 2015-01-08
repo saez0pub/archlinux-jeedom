@@ -5,27 +5,79 @@
 nginxString="nginx"
 apacheString="apache"
 
-webserver=${1-$nginxString}
-
 function usage {
     cat <<EOF
 
-Usage: `basename $0` [WEBSERVER]
+Usage: `basename $0` [-web WEBSERVER] [-jeedom DIR]
 where WEBSERVER is "$nginxString" or "$apacheString".
 Default is "$nginxString".
+Use the "-jeedom" flag to specify the path to jeedom.
+If none is provided, jeedom will be retrieved for you.
 
 Retrieves the dependencies for Jeedom and installs it.
 Official website:
 > https://jeedom.fr/index-en.php
 
 EOF
-}
+}	    
+
 
 function error {
     printf "\n\033[31mError\033[0m: $1\n"
     usage
     exit 1
 }
+
+## Option things.
+
+while :
+do
+    case $1 in
+	-h | --help)
+	    usage
+	    exit 0
+	    ;;
+	-web)
+	    if [ ! "$2" ]; then
+		error "-web flag active but no webserver specified."
+	    elif [[ "$2" = "$nginxString" || "$2" = "$apacheString" ]]; then
+		webserver="$2"
+	    else
+		error "unexpected webserver [$2]."
+	    fi
+	    shift 2
+	    ;;
+	-jeedom)
+	    if [ ! "$2" ]; then
+		error "-jeedom flag active but no directory specified."
+	    elif [ -d "$2" ]; then
+		jeedomDir="$2"
+	    else
+		error "directory [$2] does not exist."
+	    fi
+	    shift 2
+	    ;;
+	*)
+	    if [ "$1" = "" ]; then
+		shift
+	    else
+		error "unexpected argument [$1]."
+	    fi
+	    shift
+	    break
+	    ;;
+    esac
+done
+
+if [ "$webserver" = "" ]; then
+    echo
+    echo "Using default webserver \"$nginxString\"."
+    webserver="$nginxString"
+    echo
+else
+    echo
+fi
+
 
 
 function userConfirm {
@@ -58,12 +110,11 @@ function echoEval {
     fi
 }
 
-if [[ "${webserver}" = "$nginxString" || "${webserver}" = "$apacheString" ]] ; then
-    echo
-    userConfirm
-else
-    error "unexpected webserver name \"$webserver\""
-fi
+
+## Starting to do things.
+
+
+userConfirm
 
 echo
 echo "********************************************************"
@@ -148,26 +199,6 @@ elif [ "${webserver}" = "apache" ] ; then
     echoEval "chown www-data:www-data -R /var/www"
 fi
 
-echo
-echo "********************************************************"
-echo "*                 Copying Jeedom files                 *"
-echo "********************************************************"
-echo
-
-if [ -d "jeedom" ] ; then
-    echoEval "rm -rf jeedom"
-fi
-echoEval "wget -O jeedom.zip https://market.jeedom.fr/jeedom/stable/jeedom.zip"
-
-if [  $? -ne 0 ] ; then
-    echoEval "wget -O jeedom.zip https://market.jeedom.fr/jeedom/stable/jeedom.zip"
-    if [  $? -ne 0 ] ; then
-        error "failed to download file."
-    fi
-fi
-
-echoEval "unzip jeedom.zip -d jeedom"
-
 if [ "${webserver}" = "nginx" ] ; then 
     echoEval "sudo mkdir /usr/share/nginx/www/jeedom/tmp"
     echoEval "sudo chmod 775 -R /usr/share/nginx/www"
@@ -178,8 +209,34 @@ elif [ "${webserver}" = "apache" ] ; then
     echoEval "sudo chown -R www-data:www-data /var/www"
 fi
 
-echoEval "rm -rf jeedom.zip"
-echoEval "cd jeedom"
+echo
+echo "********************************************************"
+echo "*                 Copying Jeedom files                 *"
+echo "********************************************************"
+echo
+
+if [ "$jeedomDir" = "" ]; then
+    ## Retrieving jeedom.
+    if [ -d "jeedom" ] ; then
+	echoEval "rm -rf jeedom"
+    fi
+    echoEval "wget -O jeedom.zip https://market.jeedom.fr/jeedom/stable/jeedom.zip"
+
+    if [  $? -ne 0 ] ; then
+	echoEval "wget -O jeedom.zip https://market.jeedom.fr/jeedom/stable/jeedom.zip"
+	if [  $? -ne 0 ] ; then
+            error "failed to download file."
+	fi
+    fi
+
+    echoEval "unzip jeedom.zip -d jeedom"
+
+    echoEval "rm -rf jeedom.zip"
+    echoEval "cd jeedom"
+else
+    ## Cd'ing to jeedom directory.
+    echoEval "cd $jeedomDir"
+fi
 
 if [ ${nodeJS} -ne 0 ] ; then
     x86=$(uname -a | grep x86_64 | wc -l)
