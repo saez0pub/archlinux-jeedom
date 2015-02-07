@@ -1,27 +1,36 @@
 #!/bin/bash
 
 
-echo "Quel mot de passe venez vous de taper (mot de passe root de la MySql) ?"
 while true
 do
+        echo "please enter MySQL root password"
         read MySQL_root < /dev/tty
-        echo "Confirmez vous que le mot de passe est : "${MySQL_root}
+        echo Is MySQL: "${MySQL_root}
         while true
         do
-            echo -n "oui/non: "
+            echo -n "yes/no: "
             read ANSWER < /dev/tty
             case $ANSWER in
-                        oui)
+                        yes)
                                 break
                                 ;;
-                        non)
+                        no)
                                 break
                                 ;;
             esac
-            echo "Répondez oui ou non"
+            echo ""
         done
-        if [ "${ANSWER}" = "oui" ]; then
-            break
+        if [ "${ANSWER}" = "yes" ]; then
+                # Test access immediately
+                # to ensure that the provided password is valid
+                CMD="`echo "show databases;" | mysql -uroot -p${MySQL_root}`"
+                if [ $? -eq 0 ]; then
+                        # good password
+                        break
+                else
+                        echo "Bad Password"
+                        continue
+                fi
         fi
 done
 
