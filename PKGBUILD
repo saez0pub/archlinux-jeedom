@@ -1,7 +1,7 @@
 # Maintainer: saez0pub saez_pub hotmail com
 
 pkgname=jeedom
-pkgver=1.156.0
+pkgver=1.163.0
 pkgrel=1
 pkgdesc="Jeedom Home automation"
 arch=('armv6h')
@@ -15,7 +15,7 @@ source=("https://market.jeedom.fr/jeedom/stable/jeedom.zip"
         'jeedom.cron' 'jeedom.service' 'jeedom.postinstall.sh')
 
 md5sums=('SKIP'
-         'c116c5bbabee8e28a8ef6304f38f3861'
+         'fc2592a10c993654a1db4f40e85d6b1d'
          'a5da1ebf150c8fe7e440da46d84e542e'
          '060fb31788be2260d52c0c960efb6d70')
 
