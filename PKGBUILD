@@ -9,7 +9,7 @@ url="https://jeedom.fr"
 license=('GPL')
 depends=('ffmpeg' 'php-ssh' 'ntp' 'unzip' 'mariadb' 'mariadb-clients' 'cronie'
          'libmariadbclient' 'nodejs' 'php' 'php-fpm' 'usb_modeswitch' 'python-pyserial'
-	 'miniupnpc')
+	 'miniupnpc' 'npm' 'tinyxml')
 install=${pkgname}.install
 source=("https://market.jeedom.fr/jeedom/stable/jeedom.zip" 
         'jeedom.cron' 'jeedom.service' 'jeedom.postinstall.sh')
