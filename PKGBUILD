@@ -1,7 +1,7 @@
 # Maintainer: saez0pub saez_pub hotmail com
 
 pkgname=jeedom
-pkgver=1.163.0
+pkgver=1.205.0
 pkgrel=1
 pkgdesc="Jeedom Home automation"
 arch=('armv6h')
