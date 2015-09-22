@@ -7,9 +7,10 @@ pkgdesc="Jeedom Home automation"
 arch=('armv6h')
 url="https://jeedom.fr"
 license=('GPL')
-depends=('ffmpeg' 'php-ssh' 'ntp' 'unzip' 'mariadb' 'mariadb-clients' 'cronie'
+depends=('ffmpeg' 'php-ssh' 'ntp' 'unzip' 'mariadb-clients' 'cronie'
          'libmariadbclient' 'nodejs' 'php' 'php-fpm' 'usb_modeswitch' 'python-pyserial'
-	 'miniupnpc' 'npm' 'tinyxml')
+	 'miniupnpc' 'npm' 'tinyxml' 'curl')
+optdepends=('mariadb')
 install=${pkgname}.install
 source=("https://market.jeedom.fr/jeedom/stable/jeedom.zip" 
         'jeedom.cron' 'jeedom.service' 'jeedom.postinstall.sh')
