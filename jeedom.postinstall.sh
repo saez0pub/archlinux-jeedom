@@ -3,6 +3,9 @@
 
 while true
 do
+	echo "please enter mysql host (default 127.0.0.1)"
+	read MySQL_host
+	[ -z ${MySQL_host} ] && MySQL_host="127.0.0.1"
         echo "please enter MySQL root password"
         read MySQL_root < /dev/tty
         echo "Is MySQL root password : "${MySQL_root}
@@ -24,12 +27,12 @@ do
 	then
                 # Test access immediately
                 # to ensure that the provided password is valid
-                CMD="`echo "show databases;" | mysql -uroot -p${MySQL_root}`"
+                CMD="`echo "show databases;" | mysql -uroot -p${MySQL_root} -h${MySQL_host}`"
                 if [ $? -eq 0 ]; then
                         # good password
                         break
                 else
-                        echo "Bad Password"
+                        echo "Bad Password or host"
                         continue
                 fi
         fi
@@ -44,7 +47,7 @@ echo "DROP DATABASE IF EXISTS jeedom;" >> /tmp/mysql_install_$$.sql
 echo "CREATE DATABASE jeedom;" >> /tmp/mysql_install_$$.sql
 echo "GRANT ALL PRIVILEGES ON jeedom.* TO 'jeedom'@'localhost';" >> /tmp/mysql_install_$$.sql
 
-mysql -u root -p${MySQL_root} < /tmp/mysql_install_$$.sql
+mysql -u root -p${MySQL_root} -h${MySQL_host} < /tmp/mysql_install_$$.sql
 
 rm -f /tmp/mysql_install_$$.sql
 
