@@ -8,7 +8,7 @@ Jeedom on archlinux
 ```
 yaourt -Sy php-ssh
 ```
-*Edit PKGBUILD of php-ssh and add arch 'armv6h'
+Edit PKGBUILD of php-ssh and replace arch by 'any'
 ```
 makepkg -s
 ```
