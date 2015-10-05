@@ -13,12 +13,15 @@ depends=('ffmpeg' 'php-ssh' 'ntp' 'unzip' 'mariadb-clients' 'cronie'
 optdepends=('mariadb')
 install=${pkgname}.install
 source=("https://market.jeedom.fr/jeedom/stable/jeedom.zip" 
-        'jeedom.cron' 'jeedom.service' 'jeedom.postinstall.sh')
+        'jeedom.cron' 'jeedom.service' 'jeedom.postinstall.sh'
+        'apache_jeedom_80.conf' 'apache_jeedom_443.conf')
 
 md5sums=('SKIP'
          'fc2592a10c993654a1db4f40e85d6b1d'
          'a5da1ebf150c8fe7e440da46d84e542e'
-         'b661513c83e445e6353dc2ec95346cb8')
+         'b661513c83e445e6353dc2ec95346cb8'
+         'SKIP'
+         'SKIP')
 
 
 package() {
@@ -26,7 +29,9 @@ package() {
   unzip jeedom.zip -d ${pkgdir}/srv/http/jeedom
   mkdir -p ${pkgdir}/srv/http/jeedom/tmp
   mkdir -p ${pkgdir}/etc/cron.d
-  chmod  775 -R ${pkgdir}/srv/http/jeedom
+  install -D -m644 ${srcdir}/apache_jeedom_80.conf ${pkgdir}/srv/http/jeedom/install/
+  install -D -m644 ${srcdir}/apache_jeedom_443.conf ${pkgdir}/srv/http/jeedom/install/
+  chmod  644 -R ${pkgdir}/srv/http/jeedom
   chown -R http: ${pkgdir}/srv/http/jeedom
   sed -i 's:^:  :g' ${pkgdir}/srv/http/jeedom/install/nginx_*
   sed -i 's:^  }:  }\n}:g' ${pkgdir}/srv/http/jeedom/install/nginx_*
@@ -39,4 +44,5 @@ package() {
   install -D -m644 ${srcdir}/jeedom.cron ${pkgdir}/etc/cron.d/
   install -D -m644 ${srcdir}/jeedom.service ${pkgdir}/usr/lib/systemd/system/jeedom.service
   cp ${srcdir}/jeedom.postinstall.sh ${pkgdir}/srv/http/jeedom/install/
+  chmod +x ${pkgdir}/srv/http/jeedom/install/jeedom.postinstall.sh
 }
