@@ -18,7 +18,7 @@ source=("https://market.jeedom.fr/jeedom/stable/jeedom.zip"
 md5sums=('SKIP'
          'fc2592a10c993654a1db4f40e85d6b1d'
          'a5da1ebf150c8fe7e440da46d84e542e'
-         '060fb31788be2260d52c0c960efb6d70')
+         'b661513c83e445e6353dc2ec95346cb8')
 
 
 package() {
