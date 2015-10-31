@@ -2,7 +2,7 @@
 
 pkgname=jeedom
 pkgver=1.212.0
-pkgrel=2
+pkgrel=3
 pkgdesc="Jeedom Home automation"
 arch=('any')
 url="https://jeedom.fr"
@@ -46,4 +46,5 @@ package() {
   install -D -m644 ${srcdir}/jeedom.service ${pkgdir}/usr/lib/systemd/system/jeedom.service
   cp ${srcdir}/jeedom.postinstall.sh ${pkgdir}/usr/share/webapps/jeedom/install/
   chmod +x ${pkgdir}/usr/share/webapps/jeedom/install/jeedom.postinstall.sh
+  touch ${pkgdir}/etc/nginx/jeedom_dynamic_rule
 }
