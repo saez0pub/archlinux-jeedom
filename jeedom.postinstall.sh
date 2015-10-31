@@ -38,7 +38,7 @@ do
         fi
 done
 
-cd /srv/http/jeedom
+cd /usr/share/webapps/jeedom
 #Configuration de la base de données
 bdd_password=$(cat /dev/urandom | tr -cd 'a-f0-9' | head -c 15)
 echo "DROP USER 'jeedom'@'localhost';" > /tmp/mysql_install_$$.sql
@@ -71,5 +71,5 @@ sudo chown http: core/config/common.config.php
 sudo php install/install.php mode=force
 
 echo "/etc/php/php-fpm.conf modified, please restart php-fpm service"
-echo "sample apache or nginx configs are in the directory /srv/http/jeedom/install/"
+echo "sample apache or nginx configs are in the directory /usr/share/webapps/jeedom/install/"
 

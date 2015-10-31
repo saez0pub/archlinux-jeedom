@@ -25,11 +25,11 @@ sudo systemctl enable php-fpm
 sudo systemctl enable nginx OR sudo systemctl enable httpd
 sudo systemctl start mysqld
 sudo systemctl start cronie
-/srv/http/jeedom/install/jeedom.postinstall.sh
+/usr/share/webapps/jeedom/install/jeedom.postinstall.sh
 sudo systemctl start php-fpm
 ```
-*Choose your webserver conf in /srv/http/jeedom/install/
-**For nginx, don't forget cp /srv/http/jeedom/install/nginx_jeedom_dynamic_rules /etc/nginx/jeedom_dynamic_rule && chmod 777 /etc/nginx/jeedom_dynamic_rule
+*Choose your webserver conf in /usr/share/webapps/jeedom/install/
+**For nginx, don't forget cp /usr/share/webapps/jeedom/install/nginx_jeedom_dynamic_rules /etc/nginx/jeedom_dynamic_rule && chmod 777 /etc/nginx/jeedom_dynamic_rule
 ```
 sudo systemctl start nginx OR sudo systemctl start httpd
 sudo systemctl start z-way

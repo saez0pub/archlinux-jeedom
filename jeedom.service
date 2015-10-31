@@ -2,7 +2,7 @@
 Description=Jeedom NodeJs Server
 
 [Service]
-ExecStart=/usr/bin/node /srv/http/jeedom/core/nodeJS/server.js
+ExecStart=/usr/bin/node /usr/share/webapps/jeedom/core/nodeJS/server.js
 KillMode=process
 Restart=always
 
