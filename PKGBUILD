@@ -1,7 +1,7 @@
 # Maintainer: saez0pub saez_pub hotmail com
 
 pkgname=jeedom
-pkgver=1.209.0
+pkgver=1.212.0
 pkgrel=1
 pkgdesc="Jeedom Home automation"
 arch=('any')
@@ -25,6 +25,9 @@ md5sums=('SKIP'
          'SKIP'
          'SKIP')
 
+pkgver() {
+  cat $srcdir/core/config/version
+}
 
 package() {
   mkdir -p ${pkgdir}/usr/share/webapps/
