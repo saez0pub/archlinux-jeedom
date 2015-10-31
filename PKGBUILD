@@ -2,7 +2,7 @@
 
 pkgname=jeedom
 pkgver=1.212.0
-pkgrel=3
+pkgrel=4
 pkgdesc="Jeedom Home automation"
 arch=('any')
 url="https://jeedom.fr"
@@ -29,6 +29,7 @@ pkgver() {
 package() {
   mkdir -p ${pkgdir}/usr/share/webapps/
   unzip -q jeedom.zip -d ${pkgdir}/usr/share/webapps/jeedom
+  find ${pkgdir}/usr/share/webapps/ -type d -exec chmod +x {} \;
   mkdir -p ${pkgdir}/usr/share/webapps/jeedom/tmp
   mkdir -p ${pkgdir}/etc/cron.d
   patch ${pkgdir}/usr/share/webapps/jeedom/install/consistency.php < consistency.patch
