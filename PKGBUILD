@@ -2,28 +2,25 @@
 
 pkgname=jeedom
 pkgver=1.212.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Jeedom Home automation"
 arch=('any')
 url="https://jeedom.fr"
 license=('GPL')
 depends=('ffmpeg' 'php-ssh' 'ntp' 'unzip' 'mariadb-clients' 'cronie'
          'libmariadbclient' 'nodejs' 'php' 'php-fpm' 'usb_modeswitch' 'python-pyserial'
-	 'miniupnpc' 'npm' 'tinyxml' 'curl' 'php-ldap')
+	 'miniupnpc' 'npm' 'tinyxml' 'curl' 'php-ldap' 'nginx')
 optdepends=('mariadb')
 install=${pkgname}.install
 source=("https://market.jeedom.fr/jeedom/stable/jeedom.zip"
         'jeedom.cron' 'jeedom.service' 'jeedom.postinstall.sh'
-        'apache_jeedom_80.conf' 'apache_jeedom_443.conf')
-
-noextract=('jeedom.zip')
+        'consistency.patch')
 
 md5sums=('SKIP'
          'b7f9673fd49ec0cb7e3dbefdd80ba59b'
          '0aaab0f0d5b81bfb60cd6da03ba57a0d'
          '7a2598e6ea58c9d0040efa82d0d86eeb'
-         'SKIP'
-         'SKIP')
+         'edb43d8d6fafdd1d8a297cd8ce21b293')
 
 pkgver() {
   cat $srcdir/core/config/version
@@ -34,8 +31,7 @@ package() {
   unzip -q jeedom.zip -d ${pkgdir}/usr/share/webapps/jeedom
   mkdir -p ${pkgdir}/usr/share/webapps/jeedom/tmp
   mkdir -p ${pkgdir}/etc/cron.d
-  install -D -m644 ${srcdir}/apache_jeedom_80.conf ${pkgdir}/usr/share/webapps/jeedom/install/
-  install -D -m644 ${srcdir}/apache_jeedom_443.conf ${pkgdir}/usr/share/webapps/jeedom/install/
+  patch ${pkgdir}/usr/share/webapps/jeedom/install/consistency.php < consistency.patch
   chmod  644 -R ${pkgdir}/usr/share/webapps/jeedom
   chown -R http: ${pkgdir}/usr/share/webapps/jeedom
   sed -i 's:^:  :g' ${pkgdir}/usr/share/webapps/jeedom/install/nginx_*

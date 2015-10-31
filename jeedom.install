@@ -1,5 +1,6 @@
 post_install() {
  echo "To make a initial installation, run /usr/share/webapps/jeedom/install/jeedom.postinstall.sh"
+ echo "Adapt the CREATE USER to  your corresponding host if it's not localhost"
 }
 pre_upgrade() {
   #Nothing
