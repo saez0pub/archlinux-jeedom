@@ -12,9 +12,11 @@ depends=('ffmpeg' 'php-ssh' 'ntp' 'unzip' 'mariadb-clients' 'cronie'
 	 'miniupnpc' 'npm' 'tinyxml' 'curl' 'php-ldap')
 optdepends=('mariadb')
 install=${pkgname}.install
-source=("https://market.jeedom.fr/jeedom/stable/jeedom.zip" 
+source=("https://market.jeedom.fr/jeedom/stable/jeedom.zip"
         'jeedom.cron' 'jeedom.service' 'jeedom.postinstall.sh'
         'apache_jeedom_80.conf' 'apache_jeedom_443.conf')
+
+noextract=('jeedom.zip')
 
 md5sums=('SKIP'
          'b7f9673fd49ec0cb7e3dbefdd80ba59b'
@@ -26,7 +28,7 @@ md5sums=('SKIP'
 
 package() {
   mkdir -p ${pkgdir}/usr/share/webapps/
-  unzip jeedom.zip -d ${pkgdir}/usr/share/webapps/jeedom
+  unzip -q jeedom.zip -d ${pkgdir}/usr/share/webapps/jeedom
   mkdir -p ${pkgdir}/usr/share/webapps/jeedom/tmp
   mkdir -p ${pkgdir}/etc/cron.d
   install -D -m644 ${srcdir}/apache_jeedom_80.conf ${pkgdir}/usr/share/webapps/jeedom/install/
