@@ -43,7 +43,7 @@ package() {
   sed -i 's:/var/www:/usr/share/webapps:g' ${pkgdir}/usr/share/webapps/jeedom/install/apache_default
   sed -i 's/\r//' ${pkgdir}/usr/share/webapps/jeedom/install/nginx_* ${pkgdir}/usr/share/webapps/jeedom/install/apache_default
   #Debian touch
-  find ${pkgdir}/usr/share/webapps/jeedom/install/ ${pkgdir}/usr/share/webapps/jeedom/core/class/ -type f -exec sed -i 's:sites-available/::g' {} \;
+  find ${pkgdir}/usr/share/webapps/jeedom/install/ ${pkgdir}/usr/share/webapps/jeedom/core/class/ -type f -exec sed -i  -e 's:sites-available/::g' -e "s:'/proc/' . $this->getPID() . '/cmdline':/proc/self/cmdline:g"  {} \;
   install -D -m644 ${srcdir}/jeedom.cron ${pkgdir}/etc/cron.d/
   install -D -m644 ${srcdir}/jeedom.service ${pkgdir}/usr/lib/systemd/system/jeedom.service
   cp ${srcdir}/jeedom.postinstall.sh ${pkgdir}/usr/share/webapps/jeedom/install/
