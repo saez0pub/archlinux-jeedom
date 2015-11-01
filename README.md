@@ -1,4 +1,4 @@
-archlinux-jeedom
+archlinux-jeedom Too much breaking changes, debian dependencies and security questions to be maintained
 ================
 
 Jeedom on archlinux
