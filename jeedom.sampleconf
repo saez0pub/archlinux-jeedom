@@ -1,0 +1,137 @@
+server {
+  listen       443 ssl;
+  server_name  jeedom.yourdmain;
+  access_log  /var/log/nginx/jeedom.yourdmain.access.log;
+  error_log   /var/log/nginx/jeedom.yourdmain.error.log;
+
+  ssl_certificate      /etc/nginx//intermediate/certs/jeedom.yourdmain.cert.pem;
+  ssl_certificate_key  /etc/nginx//intermediate/private/jeedom.yourdmain.key.nopass;
+  ssl_client_certificate /etc/nginx//bundle.pem;
+
+  ssl_session_timeout  5m;
+
+  ssl_ciphers  HIGH:!aNULL:!MD5;
+  ssl_prefer_server_ciphers  on;
+  
+  # Add headers to serve security related headers
+  add_header Strict-Transport-Security "max-age=31536000; includeSubdomains;";
+  add_header X-Content-Type-Options nosniff;
+  add_header X-Frame-Options "SAMEORIGIN";
+  add_header X-XSS-Protection "1; mode=block";
+  add_header X-Robots-Tag none;
+  add_header X-conf 'default';
+  root /usr/share/webapps/jeedom/;
+  client_max_body_size 10M;
+  fastcgi_buffers 64 4K;
+  gzip off;
+
+  index index.php;
+  
+  location = /robots.txt {
+    allow all;
+    log_not_found off;
+    access_log off;
+  }
+
+  location ~ ^/(?:\.htaccess|data|config|db_structure\.xml|README){
+    deny all;
+  }
+
+  #location = /core/php/getJS.php  {
+  #  default_type  application/javascript;
+  #  # Add headers to serve security related headers
+  #  add_header Strict-Transport-Security "max-age=31536000; includeSubdomains;";
+  #  add_header X-Content-Type-Options nosniff;
+  #  add_header X-Frame-Options "SAMEORIGIN";
+  #  add_header X-XSS-Protection "1; mode=block";
+  #  add_header X-Robots-Tag none;
+  #  expires 3h;
+  #  rewrite ^/(.*)$ /$arg_file break;
+  #  access_log off;
+  #}
+  
+  location ~ ^/tmp/(.*)$ {
+    deny all;
+  }
+  
+  location ~ ^/log/(.*)$ {
+    deny all;
+  }
+
+  location ~ ^/backup/(.*)$ {
+    deny all;
+  }
+
+  location ~ ^/core/config/version$ {
+    deny all;
+  }
+
+  location ~ \.sql$ {
+     deny all;
+  }
+
+  location ~ \.tar$ {
+     deny all;
+  }
+
+  location ~ \.gz$ {
+     deny all;
+  }
+
+  location ~ ^/(.*)ini$ {
+    deny all;
+  }
+
+
+  location ~ \.php(?:$|/) {
+    include naxsi.rules;
+    fastcgi_split_path_info ^(.+\.php)(/.+)$;
+    include fastcgi_params;
+    fastcgi_buffer_size 128k;
+    fastcgi_buffers 4 256k;
+    fastcgi_busy_buffers_size 256k;
+    fastcgi_read_timeout 300;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    fastcgi_param PATH_INFO $fastcgi_path_info;
+    fastcgi_param HTTPS on;
+    fastcgi_param PHP_VALUE "open_basedir=/srv/http/:/home/:/tmp/:/usr/share/pear/:/usr/share/webapps/:/dev/urandom:/dev/S2:/dev/ttyAMA0:/dev/ttymxc0:/dev/ttyS0:/dev/ttyS2:/dev/urandom:/.dockerinit:/etc/nginx/default:/etc/nginx/jeedom_dynamic_rule:/sys/class/net/:/proc/self/cmdline:/sys/class/net/eth0/operstate:/sys/class/net/wlan0/operstate:/usr/bin/node:/usr/bin/raspi-config:/etc/nginx/default:/opt/python-openzwave/openzwave/cpp/src/vers.cpp";
+    fastcgi_param modHeadersAvailable true; #Avoid sending the security headers twice
+    fastcgi_pass php-handler;
+    fastcgi_intercept_errors on;
+  }
+
+
+  location / {
+    include naxsi.rules;
+    # Add headers to serve security related headers
+    add_header Strict-Transport-Security "max-age=31536000; includeSubdomains;";
+    add_header X-Content-Type-Options nosniff;
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-XSS-Protection "1; mode=block";
+    add_header X-Robots-Tag none;
+    add_header X-conf "assets";
+    expires 3h;
+    # Optional: Don't log access to assets
+    if ( $uri ~* \.(?:css|js|svg|jpg|jpeg|gif|bmp|ico|png|swf|woff)$ ){
+      access_log off;
+    }
+    try_files $uri $uri/ /index.html /index.php;
+  }
+
+
+  include jeedom_dynamic_rule;
+
+  location  /socket.io/ {
+    add_header X-conf "socket";
+    proxy_pass http://127.0.0.1:8070/socket.io/;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "Upgrade";
+    proxy_set_header Host $host;
+    proxy_redirect off;
+    proxy_read_timeout 6000;
+  }
+
+
+
+}
