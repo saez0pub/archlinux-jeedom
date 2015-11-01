@@ -32,6 +32,7 @@ package() {
   find ${pkgdir}/usr/share/webapps/ -type d -exec chmod +x {} \;
   mkdir -p ${pkgdir}/usr/share/webapps/jeedom/tmp
   mkdir -p ${pkgdir}/etc/nginx/
+  touch ${pkgdir}/etc/nginx/default
   mkdir -p ${pkgdir}/etc/cron.d
   patch ${pkgdir}/usr/share/webapps/jeedom/install/consistency.php < consistency.patch
   chmod  644 -R ${pkgdir}/usr/share/webapps/jeedom
