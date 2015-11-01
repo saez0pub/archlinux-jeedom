@@ -1,1 +1,1 @@
-* * * * * http nice -n 19 /usr/bin/php /usr/share/webapps/jeedom/core/php/jeeCron.php > /dev/null 2>&1
+* * * * * http nice -n 19 /usr/bin/php -d open_basedir=none /usr/share/webapps/jeedom/core/php/jeeCron.php > /dev/null 2>&1
