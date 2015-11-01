@@ -10,7 +10,7 @@ license=('GPL')
 depends=('ffmpeg' 'php-ssh' 'ntp' 'unzip' 'mariadb-clients' 'cronie'
          'libmariadbclient' 'nodejs' 'php' 'php-fpm' 'usb_modeswitch' 'python-pyserial'
 	 'miniupnpc' 'npm' 'tinyxml' 'curl' 'php-ldap' 'nginx')
-optdepends=('mariadb')
+optdepends=('mariadb' 'openzwave')
 install=${pkgname}.install
 source=("https://market.jeedom.fr/jeedom/stable/jeedom.zip"
         'jeedom.cron' 'jeedom.service' 'jeedom.postinstall.sh'
