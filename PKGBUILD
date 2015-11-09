@@ -8,7 +8,7 @@ arch=('any')
 url="https://jeedom.fr"
 license=('GPL')
 depends=('ffmpeg' 'php-ssh' 'ntp' 'unzip' 'mariadb-clients' 'cronie'
-         'libmariadbclient' 'nodejs' 'php' 'php-fpm' 'usb_modeswitch' 'python-pyserial'
+         'libmariadbclient' 'nodejs' 'php' 'php-fpm' 'usb_modeswitch' 'python2-pyserial'
 	 'miniupnpc' 'npm' 'tinyxml' 'curl' 'php-ldap' 'nginx')
 optdepends=('mariadb' 'openzwave')
 install=${pkgname}.install
