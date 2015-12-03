@@ -5,6 +5,10 @@ Description=Jeedom NodeJs Server
 ExecStart=/usr/bin/node /usr/share/webapps/jeedom/core/nodeJS/server.js
 KillMode=process
 Restart=always
+StandardOutput=syslog
+SyslogIdentifier=jeedom
+User=http
+Group=http
 
 [Install]
 WantedBy=multi-user.target
